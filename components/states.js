@@ -6,6 +6,7 @@ const localStorageEffect =
   (key) =>
   ({ setSelf, onSet }) => {
     const savedValue = cookies[key];
+    console.log(savedValue);
     if (savedValue != null) {
       setSelf(JSON.parse(savedValue));
     }
@@ -13,7 +14,10 @@ const localStorageEffect =
     onSet((newValue, _, isReset) => {
       isReset
         ? destroyCookie(null, key)
-        : setCookie(null, key, JSON.stringify(newValue));
+        : setCookie(null, key, JSON.stringify(newValue), {
+            maxAge: 30 * 24 * 60 * 60, // 30 days
+            path: "/",
+          });
     });
   };
 
